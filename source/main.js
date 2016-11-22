@@ -1,21 +1,22 @@
-import * as mine from './roles/mine';
+import * as harvest from './roles/harvest';
 
 export default {
     loop () {
-        for (let i in Game.creeps) {
-            const creep = Game.creeps[i];
+        Object.keys(Game.creeps)
+            .forEach(current => {
+                const creep = Game.creeps[current];
 
-            if (creep.carry.mineralAmount < creep.carryCapacity) {
-                continue;
-            }
+                if (creep.carry.mineralAmount < creep.carryCapacity) {
+                    return;
+                }
 
-            const target = creep.room
-                .find(FIND_SOURCES)[0];
+                const target = creep.room
+                    .find(FIND_SOURCES)[0];
 
-            mine.collectResource({
-                creep,
-                target
+                harvest.collectResource({
+                    creep,
+                    target
+                });
             });
-        }
     }
 }
