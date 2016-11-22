@@ -1,6 +1,7 @@
 import spawn from './roles/spawn';
 import mine from './roles/mine';
 import harvest from './roles/harvest';
+import upgrade from './roles/upgrade';
 
 export default {
     loop () {
@@ -18,6 +19,8 @@ export default {
                         return mine.run(creep);
                     case 'harvester':
                         return harvest.run(creep);
+                    case 'upgrader':
+                        return upgrade.run(creep);
                     default:
                         return console.log(`No role defined for ${creep.memory.role}`);
                 }
