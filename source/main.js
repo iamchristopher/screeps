@@ -1,22 +1,27 @@
-import * as harvest from './roles/harvest';
+import spawn from './roles/spawn';
+import mine from './roles/mine';
+import harvest from './roles/harvest';
 
 export default {
     loop () {
+        const spawner = Game.spawns['hq'];
+        const totalCreeps = Object.keys(Game.creeps).length;
+
+        spawn.run(spawner);
+
         Object.keys(Game.creeps)
-            .forEach(current => {
-                const creep = Game.creeps[current];
+            .forEach(id => {
+                const creep = Game.creeps[id];
 
-                if (creep.carry.mineralAmount < creep.carryCapacity) {
-                    return;
+                switch (creep.memory.role) {
+                    case 'miner':
+                        return mine.run(creep);
+                    case 'harvester':
+                        return harvest.run(creep);
+                    default:
+                        return console.log(`No role defined for ${creep.memory.role}`);
                 }
-
-                const target = creep.room
-                    .find(FIND_SOURCES)[0];
-
-                harvest.collectResource({
-                    creep,
-                    target
-                });
             });
+
     }
 }
