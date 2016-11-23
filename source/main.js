@@ -28,6 +28,5 @@ export default {
                         return console.log(`No role defined for ${creep.memory.role}`);
                 }
             });
-
     }
 }

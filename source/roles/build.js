@@ -12,7 +12,10 @@ export default {
             const sites = creep.room.find(FIND_CONSTRUCTION_SITES);
 
             if (sites) {
-                const targetSite = sites.sort(sortSitesByProgress)[0];
+                const targetSites = sites.sort(sortSitesByProgress);
+                const inProgressSite = targetSites.find(s => s.progress > 0);
+                const targetSite = inProgressSite || creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
+
                 if (creep.build(targetSite) === ERR_NOT_IN_RANGE) {
                     creep.moveTo(targetSite);
                 }
