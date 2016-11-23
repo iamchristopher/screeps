@@ -1,3 +1,5 @@
+import harvest from './harvest';
+
 export default {
     run (creep) {
         if (creep.memory.building && creep.carry.energy === 0) {
@@ -19,13 +21,11 @@ export default {
                 if (creep.build(targetSite) === ERR_NOT_IN_RANGE) {
                     creep.moveTo(targetSite);
                 }
+            } else {
+                harvest.run(creep);
             }
         } else {
-            const target = creep.room.find(FIND_SOURCES)[0];
-
-            if (creep.harvest(target) === ERR_NOT_IN_RANGE) {
-                creep.moveTo(target);
-            }
+            harvest.run(creep);
         }
     }
 };
