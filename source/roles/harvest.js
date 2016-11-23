@@ -1,3 +1,8 @@
+const preferredStructures = [
+    'extension',
+    'spawn'
+];
+
 export default {
     run (creep) {
         if (creep.memory.harvesting && creep.carry.energy === 0) {
@@ -11,7 +16,7 @@ export default {
         if (creep.memory.harvesting) {
             const target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
                 filter (structure) {
-                    if ((structure.structureType == 'extension' || structure.structureType == 'spawn') && structure.energy < structure.energyCapacity) {
+                    if (preferredStructures.indexOf(structure.structureType) > -1 && structure.energy < structure.energyCapacity) {
                         return true;
                     }
 
