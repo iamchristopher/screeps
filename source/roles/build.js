@@ -15,6 +15,7 @@ export default {
 
             const preference = [
                 STRUCTURE_CONTAINER,
+                STRUCTURE_EXTENSION,
                 STRUCTURE_WALL
             ].reverse();
 
