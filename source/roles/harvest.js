@@ -14,7 +14,7 @@ export default {
         }
 
         if (creep.memory.harvesting) {
-            const target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+            const target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter (structure) {
                     if (preferredStructures.indexOf(structure.structureType) > -1 && structure.energy < structure.energyCapacity) {
                         return true;
@@ -30,7 +30,7 @@ export default {
                 }
             }
         } else {
-            const target = creep.room.find(FIND_SOURCES)[0];
+            const target = creep.pos.findClosestByPath(FIND_SOURCES);
 
             if (creep.harvest(target) === ERR_NOT_IN_RANGE) {
                 creep.moveTo(target);
