@@ -1,3 +1,4 @@
+import build from './build';
 import harvest from './harvest';
 
 export default {
@@ -9,6 +10,8 @@ export default {
         if (!creep.memory.upgrading && creep.carry.energy === creep.carryCapacity) {
             creep.memory.upgrading = true;
         }
+
+        build.buildRoadIfNeeded(creep);
 
         if (creep.memory.upgrading) {
             if (creep.upgradeController(creep.room.controller) === ERR_NOT_IN_RANGE) {

@@ -38,6 +38,15 @@ export default {
         } else {
             harvest.run(creep);
         }
+    },
+
+    buildRoadIfNeeded (creep) {
+        const positionHasRoad = creep.pos.lookFor(LOOK_STRUCTURES)
+            .some(o => o.structureType === STRUCTURE_ROAD);
+
+        if (!positionHasRoad && creep.memory.role !== 'builder') {
+            creep.pos.createConstructionSite(STRUCTURE_ROAD);
+        }
     }
 };
 
