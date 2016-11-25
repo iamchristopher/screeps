@@ -3,6 +3,7 @@ import mine from './roles/mine';
 import harvest from './roles/harvest';
 import upgrade from './roles/upgrade';
 import build from './roles/build';
+import maintain from './roles/maintain';
 
 export default {
     loop () {
@@ -24,6 +25,8 @@ export default {
                         return upgrade.run(creep);
                     case 'builder':
                         return build.run(creep);
+                    case 'maintainer':
+                        return maintain.run(creep);
                     default:
                         return console.log(`No role defined for ${creep.memory.role}`);
                 }
