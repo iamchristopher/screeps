@@ -3,7 +3,8 @@ import harvest from './harvest';
 const preferredStructures = [
     STRUCTURE_EXTENSION,
     STRUCTURE_CONTAINER,
-    STRUCTURE_WALL
+    STRUCTURE_WALL,
+    STRUCTURE_TOWER
 ];
 
 export default {

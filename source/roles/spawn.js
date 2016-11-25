@@ -24,7 +24,7 @@ export default {
                 };
             }, {});
 
-        if (!currentSpawns.harvester || currentSpawns.harvester < 3) {
+        if (!currentSpawns.harvester || currentSpawns.harvester < 4) {
             let workEthic = [ WORK, MOVE, CARRY ];
             if (energyCapacityAvailable > 450) {
                 workEthic = [ MOVE, MOVE, WORK, WORK, CARRY, CARRY, CARRY ];
