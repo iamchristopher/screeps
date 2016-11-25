@@ -18,7 +18,6 @@ export default {
             const target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter (structure) {
                     if (preferredStructures.indexOf(structure.structureType) > -1) {
-
                         if (structure.energy < structure.energyCapacity) {
                             return true;
                         }

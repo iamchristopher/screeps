@@ -27,7 +27,9 @@ export default {
                 if (inProgressSite) {
                     targetSite = inProgressSite;
                 } else {
-                    targetSite = sites.sort(sortByPreference(preferredStructures))[0];
+                    targetSite = sites
+                        .sort(sortByPreference(preferredStructures))
+                        .shift();
                 }
 
                 if (creep.build(targetSite) === ERR_NOT_IN_RANGE) {

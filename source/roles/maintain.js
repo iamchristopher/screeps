@@ -1,5 +1,13 @@
 import harvest from './harvest';
 
+const preferredStructures = [
+    STRUCTURE_SPAWN,
+    STRUCTURE_CONTROLLER,
+    STRUCTURE_CONTAINER,
+    STRUCTURE_EXTENSION,
+    STRUCTURE_WALL
+];
+
 export default {
     run (creep) {
         if (creep.memory.working && creep.carry.energy === 0) {
@@ -13,24 +21,13 @@ export default {
         if (creep.memory.working) {
             const sites = creep.room.find(FIND_STRUCTURES);
 
-            const preference = [
-                STRUCTURE_SPAWN,
-                STRUCTURE_CONTROLLER,
-                STRUCTURE_CONTAINER,
-                STRUCTURE_EXTENSION,
-                STRUCTURE_WALL
-            ].reverse();
-
             if (sites) {
-                const target = sites
-                    .sort(sortByPreference(preference))
-                    .reverse();
-// console.log('?');
-// target.forEach(s => console.log(JSON.stringify(s.structureType)));
-// console.log('===');
+                const targetSite = sites
+                    .sort(sortByPreference(preferredStructures))
+                    .shift();
 
-                if (creep.repair(target[0]) === ERR_NOT_IN_RANGE) {
-                    creep.moveTo(target[0]);
+                if (creep.repair(targetSite) === ERR_NOT_IN_RANGE) {
+                    creep.moveTo(targetSite);
                 }
             }
         } else {
@@ -39,25 +36,25 @@ export default {
     }
 };
 
-function sortByPreference (preference) {
+function sortByPreference (preferences) {
     return (a, b) => {
-        const x = preference.indexOf(a.structureType);
-        const y = preference.indexOf(b.structureType);
+        const x = preferences.indexOf(a.structureType);
+        const y = preferences.indexOf(b.structureType);
 
         if (x > 0 && y < 0) {
-            return 1;
+            return -1;
         }
 
         if (x < 0 && y > 0) {
-            return -1;
-        }
-
-        if (x > y) {
             return 1;
         }
 
-        if (x < y) {
+        if (x > y) {
             return -1;
+        }
+
+        if (x < y) {
+            return 1;
         }
 
         return 0;
