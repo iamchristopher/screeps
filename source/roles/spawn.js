@@ -24,18 +24,33 @@ export default {
                 };
             }, {});
 
-        if (!currentSpawns.harvester || currentSpawns.harvester < 7) {
+        if (!currentSpawns.harvester || currentSpawns.harvester < 3) {
             let workEthic = [ WORK, MOVE, CARRY ];
-            if (energyCapacityAvailable > 300) {
-                workEthic = [ WORK, WORK, MOVE, CARRY ];
+            if (energyCapacityAvailable > 450) {
+                workEthic = [ MOVE, MOVE, WORK, WORK, CARRY, CARRY, CARRY ];
+            } else if (energyCapacityAvailable > 350) {
+                workEthic = [ MOVE, MOVE, WORK, CARRY, CARRY, CARRY ];
+            } else if (energyCapacityAvailable > 300) {
+                workEthic = [ MOVE, MOVE, WORK, CARRY, CARRY ];
             }
 
             spawner.createCreep(workEthic, `Harvester_${Game.time}`, {
                 role: 'harvester'
             });
-        } else if (!currentSpawns.upgrader || currentSpawns.upgrader < 5) {
+        } else if (!currentSpawns.maintainer || currentSpawns.maintainer < 4) {
             let workEthic = [ WORK, MOVE, CARRY ];
-            if (energyCapacityAvailable > 300) {
+            if (energyCapacityAvailable > 350) {
+                workEthic = [ WORK, MOVE, CARRY, CARRY, CARRY ];
+            }
+
+            spawner.createCreep(workEthic, `Maintainer_${Game.time}`, {
+                role: 'maintainer'
+            });
+        } else if (!currentSpawns.upgrader || currentSpawns.upgrader < 2) {
+            let workEthic = [ WORK, MOVE, CARRY ];
+            if (energyCapacityAvailable > 350) {
+                workEthic = [ WORK, WORK, MOVE, MOVE, CARRY ];
+            } else if (energyCapacityAvailable > 300) {
                 workEthic = [ WORK, WORK, MOVE, CARRY ];
             }
 
@@ -44,22 +59,26 @@ export default {
             });
         } else if (!currentSpawns.builder || currentSpawns.builder < 4) {
             let workEthic = [ WORK, MOVE, CARRY ];
-            if (energyCapacityAvailable > 300) {
+            if (energyCapacityAvailable > 450) {
+                workEthic = [ WORK, WORK, WORK, MOVE, MOVE, CARRY ];
+            } else if (energyCapacityAvailable > 350) {
+                workEthic = [ WORK, WORK, MOVE, MOVE, CARRY ];
+            } else if (energyCapacityAvailable > 300) {
                 workEthic = [ WORK, WORK, MOVE, CARRY ];
             }
 
             spawner.createCreep(workEthic, `Builder_${Game.time}`, {
                 role: 'builder'
             });
-        } else if (!currentSpawns.miner || currentSpawns.miner < 0) {
-            let workEthic = [ WORK, MOVE, CARRY ];
-            if (energyCapacityAvailable > 300) {
-                workEthic = [ WORK, WORK, MOVE, CARRY ];
-            }
-
-            spawner.createCreep(workEthic, `Miner_${Game.time}`, {
-                role: 'miner'
-            });
+        // } else if (!currentSpawns.miner || currentSpawns.miner < 0) {
+        //     let workEthic = [ WORK, MOVE, CARRY ];
+        //     if (energyCapacityAvailable > 300) {
+        //         workEthic = [ WORK, WORK, MOVE, CARRY ];
+        //     }
+        //
+        //     spawner.createCreep(workEthic, `Miner_${Game.time}`, {
+        //         role: 'miner'
+        //     });
         }
     }
 }
