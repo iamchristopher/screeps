@@ -24,6 +24,17 @@ export default {
             if (sites) {
                 const targetSite = sites
                     .sort(sortByPreference(preferredStructures))
+                    .filter(structure => {
+                        if (structure.structureType !== STRUCTURE_WALL) {
+                            return true;
+                        }
+
+                        if (structure.hits < 50000) {
+                            return true;
+                        }
+
+                        return false;
+                    })
                     .shift();
 
                 if (creep.repair(targetSite) === ERR_NOT_IN_RANGE) {
