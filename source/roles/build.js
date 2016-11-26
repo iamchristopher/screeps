@@ -42,6 +42,7 @@ export default {
         } else {
             const targetContainer = creep.room.find(FIND_STRUCTURES)
                 .filter(structure => structure.structureType === STRUCTURE_CONTAINER)
+                .filter(structure => structure.store.energy > 0)
                 .shift();
 
             if (creep.withdraw(targetContainer, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
