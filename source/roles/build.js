@@ -1,10 +1,10 @@
 import harvest from './harvest';
 
 const preferredStructures = [
+    STRUCTURE_TOWER,
     STRUCTURE_EXTENSION,
     STRUCTURE_CONTAINER,
-    STRUCTURE_WALL,
-    STRUCTURE_TOWER
+    STRUCTURE_WALL
 ];
 
 export default {
@@ -40,7 +40,13 @@ export default {
                 harvest.run(creep);
             }
         } else {
-            harvest.run(creep);
+            const targetContainer = creep.room.find(FIND_STRUCTURES)
+                .filter(structure => structure.structureType === STRUCTURE_CONTAINER)
+                .shift();
+
+            if (creep.withdraw(targetContainer, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+                creep.moveTo(targetContainer);
+            }
         }
     },
 
