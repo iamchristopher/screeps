@@ -48,9 +48,21 @@ export default {
                 if (creep.repair(targetSite) === ERR_NOT_IN_RANGE) {
                     creep.moveTo(targetSite);
                 }
+            } else {
+                harvest.run(creep);
             }
         } else {
-            harvest.run(creep);
+            const targetContainer = creep.room.find(FIND_STRUCTURES)
+                .filter(structure => structure.structureType === STRUCTURE_CONTAINER)
+                .filter(structure => structure.store.energy > 0)
+                .shift();
+
+            switch (creep.withdraw(targetContainer, RESOURCE_ENERGY)) {
+                case ERR_NOT_IN_RANGE:
+                    return creep.moveTo(targetContainer);
+                default:
+                    return harvest.run(creep);
+            }
         }
     }
 };
