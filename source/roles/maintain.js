@@ -1,4 +1,7 @@
 import harvest from './harvest';
+import {
+    byPreference
+} from '../utils/sort';
 
 const preferredStructures = [
     STRUCTURE_SPAWN,
@@ -24,7 +27,7 @@ export default {
 
             if (sites) {
                 const targetSite = sites
-                    .sort(sortByPreference(preferredStructures))
+                    .sort(byPreference(preferredStructures))
                     .filter(structure => {
                         if ([ STRUCTURE_WALL, STRUCTURE_RAMPART ].indexOf(structure.structureType) > -1) {
                             if (structure.hits < 50000) {
@@ -51,28 +54,3 @@ export default {
         }
     }
 };
-
-function sortByPreference (preferences) {
-    return (a, b) => {
-        const x = preferences.indexOf(a.structureType);
-        const y = preferences.indexOf(b.structureType);
-
-        if (y < 0) {
-            return -1;
-        }
-
-        if (x < 0) {
-            return 1;
-        }
-
-        if (x > y) {
-            return 1;
-        }
-
-        if (y > x) {
-            return -1;
-        }
-
-        return 0;
-    };
-}
