@@ -5,12 +5,19 @@ import upgrade from './roles/upgrade';
 import build from './roles/build';
 import maintain from './roles/maintain';
 
+import {
+    tickThrottle
+} from './utils/game';
+
 export default {
     loop () {
         const spawner = Game.spawns['hq'];
         const totalCreeps = Object.keys(Game.creeps).length;
 
-        spawn.run(spawner);
+
+        if (!tickThrottle(10)) {
+            spawn.run(spawner);
+        }
 
         Object.keys(Game.creeps)
             .forEach(id => {
