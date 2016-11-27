@@ -25,8 +25,12 @@ export default {
                 const targetSite = sites
                     .sort(sortByPreference(preferredStructures))
                     .filter(structure => {
-                        if (structure.structureType === STRUCTURE_WALL && structure.hits < 50000) {
-                            return true;
+                        if (structure.structureType === STRUCTURE_WALL) {
+                            if (structure.hits < 50000) {
+                                return true;
+                            }
+
+                            return false;
                         }
 
                         if (structure.hits < structure.hitsMax) {
