@@ -22,3 +22,15 @@ export function byPreference (preferences) {
         return 0;
     };
 }
+
+export function byProgress (a, b) {
+    if (a.progress < b.progress) {
+        return 1;
+    }
+
+    if (a.progress > b.progress) {
+        return -1;
+    }
+
+    return 0;
+}
