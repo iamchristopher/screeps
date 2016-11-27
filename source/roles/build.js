@@ -4,6 +4,7 @@ const preferredStructures = [
     STRUCTURE_TOWER,
     STRUCTURE_EXTENSION,
     STRUCTURE_CONTAINER,
+    STRUCTURE_RAMPART,
     STRUCTURE_WALL
 ];
 
