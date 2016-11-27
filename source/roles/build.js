@@ -1,4 +1,8 @@
 import harvest from './harvest';
+import {
+    byPreference,
+    byProgress
+} from '../utils/sort';
 
 const preferredStructures = [
     STRUCTURE_TOWER,
@@ -22,7 +26,7 @@ export default {
             const sites = creep.room.find(FIND_CONSTRUCTION_SITES);
 
             if (sites) {
-                const targetSites = sites.sort(sortSitesByProgress);
+                const targetSites = sites.sort(byProgress);
                 const inProgressSite = targetSites.find(s => s.progress > 0);
 
                 let targetSite;
@@ -30,7 +34,7 @@ export default {
                     targetSite = inProgressSite;
                 } else {
                     targetSite = sites
-                        .sort(sortByPreference(preferredStructures))
+                        .sort(byPreference(preferredStructures))
                         .shift();
                 }
 
@@ -64,40 +68,3 @@ export default {
         }
     }
 };
-
-function sortByPreference (preferences) {
-    return (a, b) => {
-        const x = preferences.indexOf(a.structureType);
-        const y = preferences.indexOf(b.structureType);
-
-        if (y < 0) {
-            return -1;
-        }
-
-        if (x < 0) {
-            return 1;
-        }
-
-        if (x > y) {
-            return 1;
-        }
-
-        if (y > x) {
-            return -1;
-        }
-
-        return 0;
-    };
-}
-
-function sortSitesByProgress (a, b) {
-    if (a.progress < b.progress) {
-        return 1;
-    }
-
-    if (a.progress > b.progress) {
-        return -1;
-    }
-
-    return 0;
-}
