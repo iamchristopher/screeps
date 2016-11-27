@@ -5,6 +5,7 @@ const preferredStructures = [
     STRUCTURE_CONTROLLER,
     STRUCTURE_CONTAINER,
     STRUCTURE_EXTENSION,
+    STRUCTURE_RAMPART,
     STRUCTURE_WALL
 ];
 
@@ -25,7 +26,7 @@ export default {
                 const targetSite = sites
                     .sort(sortByPreference(preferredStructures))
                     .filter(structure => {
-                        if (structure.structureType === STRUCTURE_WALL) {
+                        if ([ STRUCTURE_WALL, STRUCTURE_RAMPART ].indexOf(structure.structureType) > -1) {
                             if (structure.hits < 50000) {
                                 return true;
                             }
