@@ -45,8 +45,11 @@ export default {
                 .filter(structure => structure.store.energy > 0)
                 .shift();
 
-            if (creep.withdraw(targetContainer, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                creep.moveTo(targetContainer);
+            switch (creep.withdraw(targetContainer, RESOURCE_ENERGY)) {
+                case ERR_NOT_IN_RANGE:
+                    return creep.moveTo(targetContainer);
+                default:
+                    return harvest.run(creep);
             }
         }
     },
