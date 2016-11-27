@@ -25,7 +25,7 @@ export default {
                 const targetSite = sites
                     .sort(sortByPreference(preferredStructures))
                     .filter(structure => {
-                        if (structure.structureType === STRUCTURE_ROAD && structure.hits < 50000) {
+                        if (structure.structureType === STRUCTURE_WALL && structure.hits < 50000) {
                             return true;
                         }
 
