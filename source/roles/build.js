@@ -66,20 +66,20 @@ function sortByPreference (preferences) {
         const x = preferences.indexOf(a.structureType);
         const y = preferences.indexOf(b.structureType);
 
-        if (x > 0 && y < 0) {
+        if (y < 0) {
             return -1;
         }
 
-        if (x < 0 && y > 0) {
+        if (x < 0) {
             return 1;
         }
 
         if (x > y) {
-            return -1;
+            return 1;
         }
 
-        if (x < y) {
-            return 1;
+        if (y > x) {
+            return -1;
         }
 
         return 0;
