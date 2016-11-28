@@ -44,7 +44,7 @@ export default {
                 }
             }
         } else {
-            const target = creep.pos.findClosestByPath(FIND_SOURCES);
+            const target = creep.pos.findClosestByRange(FIND_SOURCES);
 
             if (creep.harvest(target) === ERR_NOT_IN_RANGE) {
                 creep.moveTo(target);
