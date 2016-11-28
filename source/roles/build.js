@@ -3,6 +3,9 @@ import {
     byPreference,
     byProgress
 } from '../utils/sort';
+import {
+    tickThrottle
+} from '../utils/game';
 
 const preferredStructures = [
     STRUCTURE_TOWER,
@@ -11,6 +14,8 @@ const preferredStructures = [
     STRUCTURE_RAMPART,
     STRUCTURE_WALL
 ];
+
+let sites = null;
 
 export default {
     run (creep) {
@@ -23,7 +28,9 @@ export default {
         }
 
         if (creep.memory.working) {
-            const sites = creep.room.find(FIND_CONSTRUCTION_SITES);
+            if (tickThrottle(10)) {
+                sites = creep.room.find(FIND_CONSTRUCTION_SITES);
+            }
 
             if (sites) {
                 const targetSites = sites.sort(byProgress);

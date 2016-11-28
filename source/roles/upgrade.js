@@ -1,5 +1,10 @@
 import build from './build';
 import harvest from './harvest';
+import {
+    tickThrottle
+} from '../utils/game';
+
+let harvestTarget = null;
 
 export default {
     run (creep) {
@@ -18,10 +23,12 @@ export default {
                 creep.moveTo(creep.room.controller);
             }
         } else {
-            const target = creep.pos.findClosestByRange(FIND_SOURCES);
+            if (tickThrottle(125)) {
+                harvestTarget = creep.pos.findClosestByRange(FIND_SOURCES);
+            }
 
-            if (creep.harvest(target) === ERR_NOT_IN_RANGE) {
-                creep.moveTo(target);
+            if (harvestTarget && creep.harvest(harvestTarget) === ERR_NOT_IN_RANGE) {
+                creep.moveTo(harvestTarget);
             }
         }
     }

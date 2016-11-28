@@ -2,6 +2,9 @@ import harvest from './harvest';
 import {
     byPreference
 } from '../utils/sort';
+import {
+    tickThrottle
+} from '../utils/game';
 
 const preferredStructures = [
     STRUCTURE_SPAWN,
@@ -12,6 +15,8 @@ const preferredStructures = [
     STRUCTURE_ROAD,
     STRUCTURE_WALL
 ];
+
+let sites = null;
 
 export default {
     run (creep) {
@@ -24,7 +29,9 @@ export default {
         }
 
         if (creep.memory.working) {
-            const sites = creep.room.find(FIND_STRUCTURES);
+            if (tickThrottle(35)) {
+                sites = creep.room.find(FIND_STRUCTURES);
+            }
 
             if (sites) {
                 const targetSite = sites

@@ -1,12 +1,17 @@
 import {
     byPreference
 } from '../utils/sort';
+import {
+    tickThrottle
+} from '../utils/game';
 
 const preferredStructures = [
     STRUCTURE_SPAWN,
     STRUCTURE_EXTENSION,
     STRUCTURE_CONTAINER
 ];
+
+let sites = null;
 
 export default {
     run (creep) {
@@ -19,7 +24,9 @@ export default {
         }
 
         if (creep.memory.working) {
-            const sites = creep.room.find(FIND_STRUCTURES);
+            if (tickThrottle(10)) {
+                sites = creep.room.find(FIND_STRUCTURES);
+            }
 
             if (sites) {
                 const targetSite = sites
