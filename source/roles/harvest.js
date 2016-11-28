@@ -1,3 +1,7 @@
+import {
+    byPreference
+} from '../utils/sort';
+
 const preferredStructures = [
     STRUCTURE_SPAWN,
     STRUCTURE_EXTENSION,
@@ -19,7 +23,7 @@ export default {
 
             if (sites) {
                 const targetSite = sites
-                    .sort(sortByPreference(preferredStructures))
+                    .sort(byPreference(preferredStructures))
                     .filter(structure => {
                         if (structure.energy < structure.energyCapacity) {
                             return true;
@@ -48,28 +52,3 @@ export default {
         }
     }
 };
-
-function sortByPreference (preferences) {
-    return (a, b) => {
-        const x = preferences.indexOf(a.structureType);
-        const y = preferences.indexOf(b.structureType);
-
-        if (y < 0) {
-            return -1;
-        }
-
-        if (x < 0) {
-            return 1;
-        }
-
-        if (x > y) {
-            return 1;
-        }
-
-        if (y > x) {
-            return -1;
-        }
-
-        return 0;
-    };
-}
