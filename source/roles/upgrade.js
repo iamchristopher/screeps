@@ -3,17 +3,17 @@ import harvest from './harvest';
 
 export default {
     run (creep) {
-        if (creep.memory.upgrading && creep.carry.energy === 0) {
-            creep.memory.upgrading = false;
+        if (creep.memory.working && creep.carry.energy === 0) {
+            creep.memory.working = false;
         }
 
-        if (!creep.memory.upgrading && creep.carry.energy === creep.carryCapacity) {
-            creep.memory.upgrading = true;
+        if (!creep.memory.working && creep.carry.energy === creep.carryCapacity) {
+            creep.memory.working = true;
         }
 
-        build.buildRoadIfNeeded(creep);
+        // build.buildRoadIfNeeded(creep);
 
-        if (creep.memory.upgrading) {
+        if (creep.memory.working) {
             if (creep.upgradeController(creep.room.controller) === ERR_NOT_IN_RANGE) {
                 creep.moveTo(creep.room.controller);
             }

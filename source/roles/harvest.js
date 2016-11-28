@@ -10,15 +10,15 @@ const preferredStructures = [
 
 export default {
     run (creep) {
-        if (creep.memory.harvesting && creep.carry.energy === 0) {
-            creep.memory.harvesting = false;
+        if (creep.memory.working && creep.carry.energy === 0) {
+            creep.memory.working = false;
         }
 
-        if (!creep.memory.harvesting && creep.carry.energy === creep.carryCapacity) {
-            creep.memory.harvesting = true;
+        if (!creep.memory.working && creep.carry.energy === creep.carryCapacity) {
+            creep.memory.working = true;
         }
 
-        if (creep.memory.harvesting) {
+        if (creep.memory.working) {
             const sites = creep.room.find(FIND_STRUCTURES);
 
             if (sites) {
