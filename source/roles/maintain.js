@@ -9,6 +9,7 @@ const preferredStructures = [
     STRUCTURE_CONTAINER,
     STRUCTURE_EXTENSION,
     STRUCTURE_RAMPART,
+    STRUCTURE_ROAD,
     STRUCTURE_WALL
 ];
 
