@@ -11,8 +11,6 @@ const preferredStructures = [
     STRUCTURE_CONTAINER
 ];
 
-let sites = null;
-
 export default {
     run (creep) {
         if (creep.memory.working && creep.carry.energy === 0) {
@@ -25,11 +23,7 @@ export default {
 
         if (creep.memory.working) {
             if (tickThrottle(10)) {
-                sites = creep.room.find(FIND_STRUCTURES);
-            }
-
-            if (sites) {
-                const targetSite = sites
+                const target = creep.room.find(FIND_STRUCTURES)
                     .sort(byPreference(preferredStructures))
                     .filter(structure => {
                         if (structure.energy < structure.energyCapacity) {
@@ -44,17 +38,25 @@ export default {
                     })
                     .shift();
 
-                if (targetSite) {
-                    if (creep.transfer(targetSite, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                        creep.moveTo(targetSite);
-                    }
+                creep.memory.target = target.id;
+            }
+
+            if (creep.memory.target) {
+                const harvestTarget = Game.getObjectById(creep.memory.target);
+
+                if (harvestTarget && creep.transfer(harvestTarget, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+                    creep.moveTo(harvestTarget);
                 }
             }
         } else {
-            const target = creep.pos.findClosestByRange(FIND_SOURCES);
+            if (tickThrottle(10)) {
+                const target = creep.pos.findClosestByRange(FIND_SOURCES);
+                creep.memory.target = target.id;
+            }
 
-            if (creep.harvest(target) === ERR_NOT_IN_RANGE) {
-                creep.moveTo(target);
+            const harvestTarget = Game.getObjectById(creep.memory.target);
+            if (harvestTarget && creep.harvest(harvestTarget) === ERR_NOT_IN_RANGE) {
+                creep.moveTo(harvestTarget);
             }
         }
     }

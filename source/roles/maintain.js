@@ -16,8 +16,6 @@ const preferredStructures = [
     STRUCTURE_WALL
 ];
 
-let sites = null;
-
 export default {
     run (creep) {
         if (creep.memory.working && creep.carry.energy === 0) {
@@ -29,12 +27,8 @@ export default {
         }
 
         if (creep.memory.working) {
-            if (tickThrottle(35)) {
-                sites = creep.room.find(FIND_STRUCTURES);
-            }
-
-            if (sites) {
-                const targetSite = sites
+            if (tickThrottle(15)) {
+                const target = creep.room.find(FIND_STRUCTURES)
                     .sort(byPreference(preferredStructures))
                     .filter(structure => {
                         if ([ STRUCTURE_WALL, STRUCTURE_RAMPART ].indexOf(structure.structureType) > -1) {
@@ -53,8 +47,14 @@ export default {
                     })
                     .shift();
 
-                if (creep.repair(targetSite) === ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targetSite);
+                creep.memory.target = target.id;
+            }
+
+            if (creep.memory.target) {
+                const maintainenceTarget = Game.getObjectById(creep.memory.target);
+
+                if (maintainenceTarget && creep.repair(maintainenceTarget) === ERR_NOT_IN_RANGE) {
+                    creep.moveTo(maintainenceTarget);
                 }
             } else {
                 harvest.run(creep);
