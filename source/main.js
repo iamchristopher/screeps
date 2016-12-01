@@ -14,29 +14,32 @@ export default {
         const spawner = Game.spawns['hq'];
         const totalCreeps = Object.keys(Game.creeps).length;
 
-
         if (!tickThrottle(10)) {
             spawn.run(spawner);
         }
 
-        Object.keys(Game.creeps)
-            .forEach(id => {
-                const creep = Game.creeps[id];
+        for (const id in Game.creeps) {
+            const creep = Game.creeps[id];
 
-                switch (creep.memory.role) {
-                    case 'miner':
-                        return mine.run(creep);
-                    case 'harvester':
-                        return harvest.run(creep);
-                    case 'upgrader':
-                        return upgrade.run(creep);
-                    case 'builder':
-                        return build.run(creep);
-                    case 'maintainer':
-                        return maintain.run(creep);
-                    default:
-                        return console.log(`No role defined for ${creep.memory.role}`);
-                }
-            });
+            switch (creep.memory.role) {
+                case 'miner':
+                    mine.run(creep);
+                    break;
+                case 'harvester':
+                    harvest.run(creep);
+                    break;
+                case 'upgrader':
+                    upgrade.run(creep);
+                    break;
+                case 'builder':
+                    build.run(creep);
+                    break;
+                case 'maintainer':
+                    maintain.run(creep);
+                    break;
+                default:
+                    console.log(`No role defined for ${creep.memory.role}`);
+            }
+        }
     }
 }
