@@ -11,11 +11,12 @@ import {
 
 export default {
     loop () {
-        const spawner = Game.spawns['hq'];
-        const totalCreeps = Object.keys(Game.creeps).length;
+        for (const id in Game.spawns) {
+            if (!tickThrottle(25)) {
+                continue;
+            }
 
-        if (!tickThrottle(10)) {
-            spawn.run(spawner);
+            spawn.run(Game.spawns[id]);
         }
 
         for (const id in Game.creeps) {
