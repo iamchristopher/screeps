@@ -4,6 +4,8 @@ import upgrade from '../roles/upgrade';
 import build from '../roles/build';
 import maintain from '../roles/maintain';
 
+import towerController from './tower';
+
 import {
     tickThrottle
 } from '../utils/game';
@@ -36,5 +38,12 @@ export default (room) => {
             default:
                 console.log(`No role defined for ${creep.memory.role}`);
         }
+    }
+
+    const towers = room.find(FIND_MY_STRUCTURES, {
+        filter: o => o.structureType === STRUCTURE_TOWER
+    });
+    for (const tower of towers) {
+        towerController(tower);
     }
 }
