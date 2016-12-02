@@ -3,6 +3,7 @@ import harvest from '../roles/harvest';
 import upgrade from '../roles/upgrade';
 import build from '../roles/build';
 import maintain from '../roles/maintain';
+import haul from '../roles/haul';
 
 import towerController from './tower';
 
@@ -34,6 +35,9 @@ export default (room) => {
                 break;
             case 'maintainer':
                 maintain.run(creep);
+                break;
+            case 'hauler':
+                haul.run(creep);
                 break;
             default:
                 console.log(`No role defined for ${creep.memory.role}`);

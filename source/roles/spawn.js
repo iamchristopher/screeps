@@ -75,6 +75,15 @@ export default {
             spawner.createCreep(workEthic, `Maintainer_${Game.time}`, {
                 role: 'maintainer'
             });
+        } else if (!currentSpawns.hauler || currentSpawns.hauler < 1) {
+            let workEthic = [ WORK, MOVE, CARRY ];
+            if (energyCapacityAvailable >= 300) {
+                workEthic = [ WORK, MOVE, MOVE, CARRY, CARRY ];
+            }
+
+            spawner.createCreep(workEthic, `Hauler_${Game.time}`, {
+                role: 'hauler'
+            });
         }
     }
 }
