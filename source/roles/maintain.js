@@ -1,4 +1,4 @@
-import harvest from './harvest';
+import upgrade from './upgrade';
 import {
     byPreference
 } from '../utils/sort';
@@ -57,7 +57,7 @@ export default {
                     creep.moveTo(maintainenceTarget);
                 }
             } else {
-                harvest.run(creep);
+                upgrade.run(creep);
             }
         } else {
             const targetContainer = creep.room.find(FIND_STRUCTURES)
@@ -69,7 +69,7 @@ export default {
                 case ERR_NOT_IN_RANGE:
                     return creep.moveTo(targetContainer);
                 default:
-                    return harvest.run(creep);
+                    return upgrade.run(creep);
             }
         }
     }
