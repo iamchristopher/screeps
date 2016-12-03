@@ -1,3 +1,4 @@
+import harvest from './harvest';
 import upgrade from './upgrade';
 import {
     byPreference
@@ -18,59 +19,52 @@ const preferredStructures = [
 
 export default {
     run (creep) {
-        if (creep.memory.working && creep.carry.energy === 0) {
-            creep.memory.working = false;
-        }
-
-        if (!creep.memory.working && creep.carry.energy === creep.carryCapacity) {
-            creep.memory.working = true;
-        }
-
         if (creep.memory.working) {
-            if (tickThrottle(15)) {
-                const target = creep.room.find(FIND_STRUCTURES)
-                    .sort(byPreference(preferredStructures))
-                    .filter(structure => {
-                        if ([ STRUCTURE_WALL, STRUCTURE_RAMPART ].indexOf(structure.structureType) > -1) {
-                            if (structure.hits < 50000) {
-                                return true;
-                            }
+            return harvest.run(creep, {
+                gatherOnly: true
+            });
+        }
 
-                            return false;
-                        }
-
-                        if (structure.hits < structure.hitsMax) {
+        if (!creep.memory.target) {
+            const target = creep.room.find(FIND_STRUCTURES, {
+                filter (o) {
+                    if ([ STRUCTURE_WALL, STRUCTURE_RAMPART ].indexOf(o.structureType) > -1) {
+                        if (o.hits < 50000) {
                             return true;
                         }
 
                         return false;
-                    })
-                    .shift();
+                    }
 
-                creep.memory.target = target.id;
-            }
+                    if (o.hits < o.hitsMax) {
+                        return true;
+                    }
 
-            if (creep.memory.target) {
-                const maintainenceTarget = Game.getObjectById(creep.memory.target);
-
-                if (maintainenceTarget && creep.repair(maintainenceTarget) === ERR_NOT_IN_RANGE) {
-                    creep.moveTo(maintainenceTarget);
+                    return false;
                 }
-            } else {
-                upgrade.run(creep);
-            }
-        } else {
-            const targetContainer = creep.room.find(FIND_STRUCTURES)
-                .filter(structure => structure.structureType === STRUCTURE_CONTAINER)
-                .filter(structure => structure.store.energy > 0)
+            })
+                .sort(byPreference(preferredStructures))
                 .shift();
 
-            switch (creep.withdraw(targetContainer, RESOURCE_ENERGY)) {
-                case ERR_NOT_IN_RANGE:
-                    return creep.moveTo(targetContainer);
-                default:
-                    return upgrade.run(creep);
-            }
+            creep.memory.target = target.id;
+        }
+
+        const target = Game.getObjectById(creep.memory.target);
+        const actionResult = creep.repair(target);
+
+        switch (actionResult) {
+            case ERR_NOT_IN_RANGE:
+                creep.moveTo(target);
+                break;
+            case ERR_NOT_ENOUGH_ENERGY:
+                creep.memory.working = true;
+                creep.memory.target = null;
+                break;
+            case OK:
+                // S'all good
+                break;
+            default:
+                console.log('No maintan action for result', actionResult);
         }
     }
 };
