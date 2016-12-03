@@ -18,6 +18,9 @@ export default {
             case ERR_NOT_IN_RANGE:
                 creep.moveTo(creep.room.controller);
                 break;
+            case ERR_NOT_ENOUGH_ENERGY:
+                creep.memory.working = true;
+                break;
             case OK:
                 // S'all goo
                 break;
