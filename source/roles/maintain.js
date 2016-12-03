@@ -50,6 +50,12 @@ export default {
         }
 
         const target = Game.getObjectById(creep.memory.target);
+
+        if (target.hits === target.hitsMax) {
+            creep.memory.target = null;
+            return;
+        }
+
         const actionResult = creep.repair(target);
 
         switch (actionResult) {
