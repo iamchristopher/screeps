@@ -6,7 +6,7 @@ import {
 
 export default {
     run (creep) {
-        // build.buildRoadIfNeeded(creep);
+        build.buildRoadIfNeeded(creep);
 
         if (creep.memory.working) {
             return harvest.run(creep);
