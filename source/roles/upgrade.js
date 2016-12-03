@@ -6,22 +6,23 @@ import {
 
 export default {
     run (creep) {
-        if (creep.memory.working && creep.carry.energy === 0) {
-            creep.memory.working = false;
-        }
-
-        if (!creep.memory.working && creep.carry.energy === creep.carryCapacity) {
-            creep.memory.working = true;
-        }
-
         // build.buildRoadIfNeeded(creep);
 
         if (creep.memory.working) {
-            if (creep.upgradeController(creep.room.controller) === ERR_NOT_IN_RANGE) {
+            return harvest.run(creep);
+        }
+
+        const actionResult = creep.upgradeController(creep.room.controller);
+
+        switch (actionResult) {
+            case ERR_NOT_IN_RANGE:
                 creep.moveTo(creep.room.controller);
-            }
-        } else {
-            harvest.run(creep);
+                break;
+            case OK:
+                // S'all goo
+                break;
+            default:
+                console.log('No upgrade action for result', actionResult);
         }
     }
 };
