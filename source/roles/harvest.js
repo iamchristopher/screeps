@@ -8,11 +8,12 @@ import {
 const preferredStructures = [
     STRUCTURE_SPAWN,
     STRUCTURE_EXTENSION,
+    STRUCTURE_STORAGE,
     STRUCTURE_CONTAINER
 ];
 
 export default {
-    run (creep) {
+    run (creep, { gatherOnly = false } = {}) {
         if (!creep.memory.working && creep.carry.energy === 0) {
             creep.memory.target = null;
             creep.memory.working = true;
@@ -47,7 +48,7 @@ export default {
                 default:
                     console.log('No harvest action for result', actionResult);
             }
-        } else {
+        } else if (!gatherOnly) {
             if (!creep.memory.target) {
                 const target = creep.room.find(FIND_STRUCTURES, {
                     filter (o) {
