@@ -6,10 +6,10 @@ import {
 } from '../utils/game';
 
 const preferredStructures = [
-    STRUCTURE_SPAWN,
     STRUCTURE_EXTENSION,
     STRUCTURE_STORAGE,
-    STRUCTURE_CONTAINER
+    STRUCTURE_CONTAINER,
+    STRUCTURE_SPAWN
 ];
 
 export default {
