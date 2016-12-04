@@ -18,52 +18,47 @@ const preferredStructures = [
 
 export default {
     run (creep) {
-        if (creep.memory.working && creep.carry.energy === 0) {
-            creep.memory.working = false;
-        }
-
-        if (!creep.memory.working && creep.carry.energy === creep.carryCapacity) {
-            creep.memory.working = true;
-        }
-
         if (creep.memory.working) {
-            if (tickThrottle(10)) {
-                const sites = creep.room.find(FIND_CONSTRUCTION_SITES);
-                const targetSites = sites.sort(byProgress);
-                const inProgressSite = targetSites.find(s => s.progress > 0);
+            return harvest.run(creep, {
+                gatherOnly: true
+            });
+        }
 
-                if (inProgressSite) {
-                    creep.memory.target = inProgressSite.id;
-                } else {
-                    const targetSite = sites
-                        .sort(byPreference(preferredStructures))
-                        .shift();
+        if (!creep.memory.target) {
+            const sites = creep.room.find(FIND_CONSTRUCTION_SITES);
+            const targetSites = sites.sort(byProgress);
+            const inProgressSite = targetSites.find(s => s.progress > 0);
 
-                    creep.memory.target = targetSite.id;
-                }
-            }
-
-            if (creep.memory.target) {
-                const buildTarget = Game.getObjectById(creep.memory.target);
-
-                if (buildTarget && creep.build(buildTarget) === ERR_NOT_IN_RANGE) {
-                    creep.moveTo(buildTarget);
-                }
+            if (inProgressSite) {
+                creep.memory.target = inProgressSite.id;
             } else {
-                harvest.run(creep);
-            }
-        } else {
-            const targetContainer = creep.room.find(FIND_STRUCTURES)
-                .filter(structure => structure.structureType === STRUCTURE_CONTAINER)
-                .filter(structure => structure.store.energy > 0)
-                .shift();
+                const targetSite = sites
+                    .sort(byPreference(preferredStructures))
+                    .shift();
 
-            switch (creep.withdraw(targetContainer, RESOURCE_ENERGY)) {
-                case ERR_NOT_IN_RANGE:
-                    return creep.moveTo(targetContainer);
-                default:
-                    return harvest.run(creep);
+                creep.memory.target = targetSite.id;
             }
+        }
+
+        const target = Game.getObjectById(creep.memory.target);
+        const actionResult = creep.build(target);
+
+        switch (actionResult) {
+            case ERR_NOT_IN_RANGE:
+                creep.moveTo(target);
+                break;
+            case ERR_INVALID_TARGET:
+                creep.memory.target = null;
+                break;
+            case ERR_NOT_ENOUGH_ENERGY:
+                creep.memory.working = true;
+                creep.memory.target = null;
+                break;
+            case OK:
+                // S'all good
+                break;
+            default:
+                console.log('No build action for result', actionResult);
         }
     },
 
