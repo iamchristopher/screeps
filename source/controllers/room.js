@@ -14,7 +14,7 @@ import {
 export default (room) => {
     const spawns = room.find(FIND_MY_SPAWNS);
     for (const s of spawns) {
-        if (!tickThrottle(25)) {
+        if (!tickThrottle(150)) {
             continue;
         }
 
