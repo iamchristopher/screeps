@@ -25,7 +25,7 @@ export default {
                 };
             }, {});
 
-        if (!currentSpawns.harvester || currentSpawns.harvester < 4) {
+        if (!currentSpawns.harvester || currentSpawns.harvester < 3) {
             let workEthic = [ WORK, MOVE, CARRY ];
             if (energyCapacityAvailable >= 500) {
                 workEthic = [ WORK, WORK, WORK, MOVE, MOVE, CARRY, CARRY ];
@@ -38,7 +38,7 @@ export default {
             spawner.createCreep(workEthic, `Harvester_${Game.time}`, {
                 role: 'harvester'
             });
-        } else if (!currentSpawns.upgrader || currentSpawns.upgrader < 4) {
+        } else if (!currentSpawns.upgrader || currentSpawns.upgrader < 3) {
             let workEthic = [ WORK, MOVE, CARRY ];
             if (energyCapacityAvailable >= 400) {
                 workEthic = [ WORK, WORK, MOVE, CARRY, CARRY ];
@@ -49,7 +49,7 @@ export default {
             spawner.createCreep(workEthic, `Upgrader_${Game.time}`, {
                 role: 'upgrader'
             });
-        } else if (!currentSpawns.builder || currentSpawns.builder < 2) {
+        } else if (!currentSpawns.builder || currentSpawns.builder < 1) {
             let workEthic = [ WORK, MOVE, CARRY ];
             if (energyCapacityAvailable >= 500) {
                 workEthic = [ WORK, WORK, WORK, MOVE, CARRY, CARRY, CARRY ];
