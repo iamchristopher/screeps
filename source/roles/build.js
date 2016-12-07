@@ -31,12 +31,14 @@ export default {
 
             if (inProgressSite) {
                 creep.memory.target = inProgressSite.id;
-            } else {
+            } else if (sites.length) {
                 const targetSite = sites
                     .sort(byPreference(preferredStructures))
                     .shift();
 
                 creep.memory.target = targetSite.id;
+            } else {
+                return harvest.run(creep);
             }
         }
 
