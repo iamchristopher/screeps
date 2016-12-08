@@ -11,8 +11,8 @@ const preferredStructures = [
     STRUCTURE_CONTAINER,
     STRUCTURE_EXTENSION,
     STRUCTURE_RAMPART,
-    STRUCTURE_ROAD,
-    STRUCTURE_WALL
+    STRUCTURE_WALL,
+    STRUCTURE_ROAD
 ];
 
 export default (tower) => {
@@ -25,7 +25,7 @@ export default (tower) => {
         return tower.attack(attackTarget);
     }
 
-    if (tower.energy <= 500 || !tickThrottle(5)) {
+    if (tower.energy <= 500 || !tickThrottle(3)) {
         return;
     }
 
