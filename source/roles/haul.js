@@ -64,7 +64,7 @@ export default {
             if (!creep.memory.target) {
                 const target = creep.room.find(FIND_STRUCTURES, {
                     filter (o) {
-                        if (o.structureType === STRUCTURE_EXTENSION) {
+                        if ([ STRUCTURE_EXTENSION, STRUCTURE_SPAWN ].indexOf(o.structureType) > -1) {
                             if (o.energy < o.energyCapacity) {
                                 return true;
                             }
