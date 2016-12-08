@@ -7,9 +7,9 @@ import {
 
 const preferredStructures = [
     STRUCTURE_EXTENSION,
+    STRUCTURE_SPAWN,
     STRUCTURE_STORAGE,
-    STRUCTURE_CONTAINER,
-    STRUCTURE_SPAWN
+    STRUCTURE_CONTAINER
 ];
 
 export default {
@@ -26,7 +26,7 @@ export default {
 
         if (creep.memory.working) {
             if (!creep.memory.target) {
-                const target = creep.pos.findClosestByRange(FIND_SOURCES);
+                const target = creep.pos.findClosestByPath(FIND_SOURCES);
 
                 creep.memory.target = target.id;
             }
