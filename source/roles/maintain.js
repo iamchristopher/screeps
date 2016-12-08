@@ -26,37 +26,52 @@ export default {
         }
 
         if (!creep.memory.target) {
-            const target = creep.room.find(FIND_STRUCTURES, {
-                filter (o) {
-                    if ([ STRUCTURE_WALL, STRUCTURE_RAMPART ].indexOf(o.structureType) > -1) {
-                        if (o.hits < 50000) {
+            const tower = creep.room.find(FIND_STRUCTURES, {
+                filter: o => o.structureType === STRUCTURE_TOWER
+            })
+                .shift();
+
+            if (tower) {
+                creep.memory.target = tower.id;
+            } else {
+                const target = creep.room.find(FIND_STRUCTURES, {
+                    filter (o) {
+                        if ([ STRUCTURE_WALL, STRUCTURE_RAMPART ].indexOf(o.structureType) > -1) {
+                            if (o.hits < 50000) {
+                                return true;
+                            }
+
+                            return false;
+                        }
+
+                        if (o.hits < o.hitsMax) {
                             return true;
                         }
 
                         return false;
                     }
+                })
+                    .sort(byPreference(preferredStructures))
+                    .shift();
 
-                    if (o.hits < o.hitsMax) {
-                        return true;
-                    }
-
-                    return false;
-                }
-            })
-                .sort(byPreference(preferredStructures))
-                .shift();
-
-            creep.memory.target = target.id;
+                creep.memory.target = target.id;
+            }
         }
 
         const target = Game.getObjectById(creep.memory.target);
 
-        if (target.hits === target.hitsMax) {
-            creep.memory.target = null;
-            return;
-        }
+        let actionResult;
+        if (target.structureType === STRUCTURE_TOWER) {
+            actionResult = creep.transfer(target, RESOURCE_ENERGY);
+        } else {
+            if (target.hits === target.hitsMax) {
+                console.log('all healed');
+                creep.memory.target = null;
+                return;
+            }
 
-        const actionResult = creep.repair(target);
+            actionResult = creep.repair(target);
+        }
 
         switch (actionResult) {
             case ERR_NOT_IN_RANGE:
